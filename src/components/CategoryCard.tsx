@@ -1,43 +1,42 @@
-import { motion } from "framer-motion";
+import type { Category } from "../data/categories";
 
-type Props = {
-  title: string;
-  bg: string;
-  image: string;
-  isSeeAll?: boolean;
-};
+interface Props {
+  category: Category;
+}
 
-const CategoryCard = ({ title, bg, image, isSeeAll }: Props) => {
+function CategoryCard({ category }: Props) {
   return (
-    <motion.div
-      whileHover={{ scale: isSeeAll ? 1.03 : 1.05, y: -4 }}
-      className={`relative rounded-2xl h-[120px] w-full
-      ${bg} cursor-pointer flex items-center justify-center
-      ${isSeeAll ? "bg-[#1a1a2e] border border-orange-500/40" : ""}`}
+    <div
+      className="relative rounded-2xl px-5 py-4 min-h-[130px]
+      flex flex-col justify-between cursor-pointer transition
+
+      bg-[#0f172a] border border-[#1e293b]
+      hover:bg-[#111827] hover:border-orange-500/40
+      hover:shadow-[0_6px_20px_rgba(255,115,0,0.15)]"
     >
+      {/* 🔹 TEXT */}
+      <div>
+        <h3 className="text-sm sm:text-base font-semibold text-gray-100 leading-tight">
+          {category.title}
+        </h3>
 
-      {isSeeAll ? (
-        <div className="flex flex-col items-center justify-center">
-          <div className="text-lg text-orange-400">→</div>
-          <span className="text-xs text-orange-400 font-medium mt-1">
-            See All
-          </span>
-        </div>
-      ) : (
-        <>
-          <h2 className="text-white text-base font-semibold absolute left-4 top-4">
-            {title}
-          </h2>
+        {category.subtitle && (
+          <p className="text-xs sm:text-sm text-gray-400 mt-1">
+            {category.subtitle}
+          </p>
+        )}
+      </div>
 
-          <img
-            src={image}
-            alt={title}
-            className="absolute right-4 bottom-4 h-16 opacity-80"
-          />
-        </>
-      )}
-    </motion.div>
+      {/* 🔹 IMAGE */}
+      <div className="absolute bottom-3 right-3">
+        <img
+          src={category.image}
+          alt={category.title}
+          className="h-14 object-contain opacity-80"
+        />
+      </div>
+    </div>
   );
-};
+}
 
 export default CategoryCard;

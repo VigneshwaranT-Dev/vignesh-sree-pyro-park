@@ -1,42 +1,39 @@
-export type Category = {
+export interface Category {
+  id: string;
   title: string;
-  bg: string;
+  subtitle: string;
   image: string;
-  isSeeAll?: boolean;
-};
+}
 
 export const categories: Category[] = [
   {
-    title: "Aerial Shots",
-    bg: "bg-gradient-to-r from-purple-900 to-indigo-900",
-    image: "https://cdn-icons-png.flaticon.com/512/744/744465.png",
+    id: "flower-pots",
+    title: "Flower Pots",
+    subtitle: "Classic ground sparks",
+    image: "/assets/category/flower-pot.png",
   },
   {
+    id: "chakra",
+    title: "Chakra Crackers",
+    subtitle: "Spin the festive joy",
+    image: "/assets/category/Chakras.png",
+  },
+  {
+    id: "sparklers",
     title: "Sparklers",
-    bg: "bg-gradient-to-r from-yellow-700 to-orange-500",
-    image: "https://cdn-icons-png.flaticon.com/512/616/616494.png",
+    subtitle: "Safe sparkle fun",
+    image: "/assets/category/sprinkler.png",
   },
   {
-    title: "Rockets",
-    bg: "bg-gradient-to-r from-blue-900 to-cyan-700",
-    image: "https://cdn-icons-png.flaticon.com/512/3212/3212608.png",
+    id: "sky-shots",
+    title: "Sky Shots",
+    subtitle: "Light up the sky",
+    image: "/assets/category/sky-shot.png",
   },
   {
+    id: "gift-boxes",
     title: "Gift Boxes",
-    bg: "bg-gradient-to-r from-pink-800 to-red-600",
-    image: "https://cdn-icons-png.flaticon.com/512/3081/3081559.png",
-  },
-  {
-    title: "Fancy Items",
-    bg: "bg-gradient-to-r from-indigo-800 to-purple-700",
-    image: "https://cdn-icons-png.flaticon.com/512/869/869869.png",
-  },
-
-  // 🔥 SEE ALL AS CATEGORY
-  {
-    title: "See All",
-    bg: "bg-[#1a1a2e]",
-    image: "➡️", // can also use icon
-    isSeeAll: true,
+    subtitle: "Celebrate, all packed",
+    image: "/assets/category/gift-box.png",
   },
 ];

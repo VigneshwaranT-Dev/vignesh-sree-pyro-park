@@ -1,65 +1,99 @@
 import { motion } from "framer-motion";
 import { ShoppingCart, Heart, Search } from "lucide-react";
 
-const Navbar = () => {
+type Props = {
+  onCartClick: () => void;
+};
+
+const Navbar = ({ onCartClick }: Props) => {
   return (
     <div className="sticky top-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10">
 
-      {/* 🔶 TOP NAV */}
-      <div className="flex items-center justify-between px-6 py-3">
+      <div className="flex items-center justify-between px-6 py-3 gap-4">
 
-        {/* LOGO */}
-        <h1 className="text-orange-400 font-bold text-xl">
-          Vignesh Sree Pyro Park
-        </h1>
+        {/* 🔥 LEFT - LOGO + BRAND */}
+        <div className="flex items-center gap-3 min-w-[220px] cursor-pointer">
 
-        {/* SEARCH */}
-        <div className="hidden md:flex items-center w-[50%]">
-          <div className="flex items-center bg-[#1a2235] px-3 py-2 rounded-lg w-full">
+          <img
+            src="/assets/logo/app-logo.png"
+            alt="Sree Vignesh Pyro Park"
+            className="h-12 object-contain"
+          />
+
+          <div className="inline-block">
+
+          <h1 className="leading-tight">
+
+            {/* 🔥 TOP LINE */}
+            <span
+              className="
+                block text-white text-[16px] md:text-lg font-bold tracking-wide
+                drop-shadow-[0_0_6px_rgba(255,115,0,0.6)]
+              "
+            >
+              Vignesh Sree
+            </span>
+
+            {/* 🔥 BOTTOM LINE STRETCHED */}
+            <span
+              className="
+                block w-full text-center
+                text-xs font-bold
+                tracking-[0.4em]   /* 🔥 key: increase spacing */
+                bg-gradient-to-r from-orange-400 via-orange-500 to-red-500
+                bg-clip-text text-transparent
+                drop-shadow-[0_0_10px_rgba(255,115,0,0.8)]
+              "
+            >
+              PYRO PARK
+            </span>
+
+          </h1>
+
+        </div>
+
+        </div>
+
+        {/* 🔥 CENTER - SEARCH */}
+        <div className="flex-1 max-w-2xl">
+          <div
+            className="
+              flex items-center bg-[#1a2235] px-3 py-2 rounded-lg w-full
+              border border-[#1e293b]
+              transition-all duration-300
+
+              focus-within:border-orange-400
+              focus-within:shadow-[0_0_15px_rgba(255,115,0,0.4)]
+              focus-within:bg-[#1f2937]
+            "
+          >
             <Search size={16} className="text-gray-400" />
+
             <input
               type="text"
               placeholder="Search crackers..."
-              className="bg-transparent outline-none ml-2 text-sm w-full text-white"
+              className="bg-transparent outline-none ml-2 text-sm w-full text-white caret-orange-500"
             />
           </div>
         </div>
 
-        {/* ACTIONS */}
-        <div className="flex items-center gap-4">
+        {/* 🔥 RIGHT - ACTIONS */}
+        <div className="flex items-center gap-4 min-w-[180px] justify-end">
 
           <motion.div whileHover={{ scale: 1.2 }}>
             <Heart className="cursor-pointer text-gray-300 hover:text-orange-400" />
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.2 }}>
-            <ShoppingCart className="cursor-pointer text-gray-300 hover:text-orange-400" />
+            <ShoppingCart className="cursor-pointer text-gray-300 hover:text-orange-400" onClick={onCartClick}/>
           </motion.div>
 
           <button className="bg-orange-500 px-4 py-1.5 rounded-lg text-sm hover:bg-orange-600 transition">
             Login
           </button>
         </div>
-      </div>
 
-      {/* 🔶 SECOND NAV */}
-      {/* <div className="hidden md:flex gap-6 px-6 pb-3 text-sm text-gray-300">
-        {[
-          "Home",
-          "Best Sellers",
-          "New Arrivals",
-          "Offers",
-          "Brands",
-          "Contact",
-        ].map((item) => (
-          <span
-            key={item}
-            className="cursor-pointer hover:text-orange-400 transition"
-          >
-            {item}
-          </span>
-        ))}
-      </div> */}
+      </div>
     </div>
   );
 };
