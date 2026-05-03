@@ -43,3 +43,57 @@ button {
 .cart-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 115, 0, 0.8);
 }
+
+/* 🔥 PREMIUM SCROLLBAR BASE */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* TRACK (glass dark) */
+*::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #020617, #020617);
+  border-radius: 10px;
+}
+
+/* THUMB (premium gradient + glow) */
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 140, 0, 0.9),
+    rgba(249, 115, 22, 0.8),
+    rgba(234, 88, 12, 0.9)
+  );
+  border-radius: 999px;
+  border: 2px solid #020617; /* creates floating effect */
+  box-shadow:
+    0 0 6px rgba(249, 115, 22, 0.5),
+    inset 0 0 6px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* 🔥 HOVER EFFECT */
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    #fb923c,
+    #f97316,
+    #ea580c
+  );
+  box-shadow:
+    0 0 12px rgba(249, 115, 22, 0.8),
+    inset 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+/* 🔥 ACTIVE (when dragging) */
+*::-webkit-scrollbar-thumb:active {
+  background: #f97316;
+  box-shadow:
+    0 0 16px rgba(249, 115, 22, 1),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* 🔥 FIREFOX */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #f97316 #020617;
+}

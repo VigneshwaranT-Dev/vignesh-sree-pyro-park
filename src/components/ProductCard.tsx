@@ -1,16 +1,20 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { Plus, Minus, ShoppingCart, Tag, Eye } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useOutletContext } from "react-router-dom";
 
 type Props = {
   item: any;
   onQuickView: (item: any) => void;
   onCartClick: (item: any) => void;
+  onClickCard: (item: any) => void;
+  
 };
 
-const ProductCard = ({ item, onQuickView, onCartClick }: Props) => {
+const ProductCard = ({ item, onQuickView, onCartClick, onClickCard }: Props) => {
   const { addToCart, updateQty, getItemQty, removeFromCart } = useCart();
+
+  const { openCart } = useOutletContext<{ openCart: () => void }>();
 
   const qty = getItemQty(item.id);
 
@@ -19,7 +23,8 @@ const ProductCard = ({ item, onQuickView, onCartClick }: Props) => {
       <motion.div
         className="relative cursor-pointer bg-[#0f172a] rounded-2xl p-3 border border-[#1e293b]
         hover:border-orange-500/40 transition
-        z-0 hover:z-50 hover:bg-[#111827] hover:border-orange-500/40"
+        z-0 hover:bg-[#111827] hover:border-orange-500/40"
+        onClick={onClickCard}
       >
         {/* IMAGE BOX */}
         <div className="relative bg-[#020617] rounded-xl p-3">
@@ -85,7 +90,10 @@ const ProductCard = ({ item, onQuickView, onCartClick }: Props) => {
           {qty === 0 ? (
             /* ADD BUTTON */
             <button
-              onClick={() => addToCart(item, 1)}
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(item, 1);
+              }}
               className="w-full h-[42px] bg-orange-500 text-white rounded-lg hover:bg-orange-600"
             >
               Add
@@ -95,13 +103,18 @@ const ProductCard = ({ item, onQuickView, onCartClick }: Props) => {
             <div className="flex items-center gap-3">
 
               {/* QTY BOX */}
-              <div className="flex items-center justify-between bg-[#020617] h-[42px] rounded-lg px-3 w-full border border-[#1e293b]">
+              <div className="flex items-center justify-between bg-[#020617] h-[42px] rounded-lg px-3 w-full border border-[#1e293b]" 
+              onClick={(e) => {
+                  e.stopPropagation();
+                }}>
 
                 <button
-                  onClick={() => {
+                  onClick={(e) => {
                     if (qty === 1) {
+                      e.stopPropagation();
                       removeFromCart(item.id);
                     } else {
+                      e.stopPropagation();
                       updateQty(item.id, qty - 1);
                     }
                   }}
@@ -111,14 +124,21 @@ const ProductCard = ({ item, onQuickView, onCartClick }: Props) => {
 
                 <span className="text-white font-semibold">{qty}</span>
 
-                <button onClick={() => updateQty(item.id, qty + 1)}>
+                <button onClick={(e) => {
+                  e.stopPropagation();
+                  updateQty(item.id, qty + 1)
+                }}>
                   <Plus size={16} />
                 </button>
               </div>
 
               {/* CART BUTTON */}
-              <button className="bg-orange-500 h-[42px] px-3 rounded-lg">
-                <ShoppingCart size={18} onClick={onCartClick}/>
+              <button className="bg-orange-500 h-[42px] px-3 rounded-lg" 
+              onClick={(e) => {
+                  e.stopPropagation();
+                  openCart();
+                }}>
+                <ShoppingCart size={18} />
               </button>
             </div>
           )}

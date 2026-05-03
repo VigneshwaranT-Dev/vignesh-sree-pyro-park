@@ -1,16 +1,17 @@
-import { products } from "../data/dummyData";
+import { products } from "../data/products";
 import BannerCarousel from "../components/BannerCarousel";
-import ProductCard from "../components/ProductCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
 import CategoriesSection from "../components/CategoriesSection";
 import QuickViewModal from "../components/QuickViewModal";
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import MapSection from "../components/MapSection";
+import { homeSections } from "../data/homeSections";
+import ProductSection from "../components/ProductSection";
 
 const Home = () => {
   const [selectedItem, setSelectedItem] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [sections, setSections] = useState(homeSections);
 
   const { openCart } = useOutletContext<{ openCart: () => void }>();
 
@@ -22,155 +23,31 @@ const Home = () => {
         <CategoriesSection />
       </div>
 
-      {/* 🔹 BANNER */}
       <div className="mt-4 px-4">
         <BannerCarousel />
       </div>
 
       {/* 🔹 BEST SELLERS */}
-      <div className="mt-6 mb-6 px-4">
-        <h3 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+      {sections.map((section) => {
+        const filteredProducts = products.filter(
+          (p) => p.tag === section.tag
+        );
 
-          {/* Left Accent Line */}
-          <span className="w-1 h-5 bg-orange-500 rounded-sm"></span>
-
-          {/* Title */}
-          <span className="flex items-center gap-1">
-            🔥 <span>Top Fire Picks</span>
-          </span>
-
-        </h3>
-        <div className="relative">
-          <Swiper
-            modules={[Autoplay, Navigation]}
-            spaceBetween={20}
-            slidesPerView={4.5}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
+        return (
+          <ProductSection
+            key={section.tag}
+            {...section}
+            products={filteredProducts}
+            openCart={openCart}
+            onQuickView={(data: any) => {
+              setSelectedItem(data);
+              setIsOpen(true);
             }}
-            centeredSlides={false}
-            className="w-full px-6 py-4"
-            breakpoints={{
-                320: { slidesPerView: 2 },
-                640: { slidesPerView: 3 },
-                1024: { slidesPerView: 5 },
-            }}
-            >
+          />
+        );
+      })}
 
-            {products.map((item) => (
-                <SwiperSlide key={item.id} >
-                    <div className="w-full">
-                        <ProductCard item={item}
-                        onCartClick={openCart} 
-                        onQuickView={(data) => {
-                          setSelectedItem(data);
-                          setIsOpen(true);
-                        }} />
-                    </div>
-                </SwiperSlide>
-            ))}
-
-          </Swiper>
-        </div>
-      </div>
-
-      <div className="mt-6 mb-6 px-4">
-        <h3 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-
-          {/* Left Accent Line */}
-          <span className="w-1 h-5 bg-orange-500 rounded-sm"></span>
-
-          {/* Title */}
-          <span className="flex items-center gap-1">
-            🎉 <span>Kids Favorites</span>
-          </span>
-
-        </h3>
-        <div className="relative">
-          <Swiper
-            modules={[Autoplay, Navigation]}
-            spaceBetween={20}
-            slidesPerView={4.5}
-            autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-            }}
-            centeredSlides={false}
-            className="w-full px-6 py-4"
-            breakpoints={{
-                320: { slidesPerView: 2 },
-                640: { slidesPerView: 3 },
-                1024: { slidesPerView: 5 },
-            }}
-            >
-
-            {products.map((item) => (
-                <SwiperSlide key={item.id} >
-                    <div className="w-full">
-                        <ProductCard item={item}
-                        onCartClick={openCart}  
-                        onQuickView={(data) => {
-                          setSelectedItem(data);
-                          setIsOpen(true);
-                        }}/>
-                    </div>
-                </SwiperSlide>
-            ))}
-
-          </Swiper>
-        </div>
-      </div>
-
-      <div className="mt-6 mb-6 px-4">
-        <h3 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-
-          {/* Left Accent Line */}
-          <span className="w-1 h-5 bg-orange-500 rounded-sm"></span>
-
-          {/* Title */}
-          <span className="flex items-center gap-1">
-            🎆 <span>Sky Shots</span>
-          </span>
-
-        </h3>
-        <div className="relative">
-          <Swiper
-            modules={[Autoplay, Navigation]}
-            spaceBetween={20}
-            slidesPerView={4.5}
-            autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-            }}
-            centeredSlides={false}
-            className="w-full px-6 py-4"
-            breakpoints={{
-                320: { slidesPerView: 2 },
-                640: { slidesPerView: 3 },
-                1024: { slidesPerView: 5 },
-            }}
-            >
-
-            {products.map((item) => (
-                <SwiperSlide key={item.id} >
-                    <div className="w-full">
-                        <ProductCard item={item} 
-                        onCartClick={openCart}
-                        onQuickView={(data) => {
-                          setSelectedItem(data);
-                          setIsOpen(true);
-                        }}/>
-                    </div>
-                </SwiperSlide>
-            ))}
-
-          </Swiper>
-        </div>
-      </div>
+      <MapSection/>
 
       <QuickViewModal
         item={selectedItem}

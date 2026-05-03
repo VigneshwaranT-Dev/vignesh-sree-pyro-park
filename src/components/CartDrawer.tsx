@@ -165,7 +165,7 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
                   hover:bg-[#020617] transition"
                   onClick={() => {
                     onClose();
-                    navigate("/cart"); // 👈 IMPORTANT
+                    navigate("/cart");
                   }}
                 >
                   View Cart
@@ -175,6 +175,10 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
                 <button
                   className="w-full bg-orange-500 py-2 rounded-lg text-white font-medium
                   hover:bg-orange-600 transition"
+                  onClick={() => {
+                    onClose();
+                    navigate("/checkout");
+                  }}
                 >
                   Checkout
                 </button>
