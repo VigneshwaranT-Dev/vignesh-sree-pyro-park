@@ -24,7 +24,7 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
   const total = cart.reduce(
     (acc: number, item: any) =>
       acc + (item.offerPrice || item.price) * item.qty,
-    0
+    0,
   );
 
   return (
@@ -52,9 +52,7 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
           >
             {/* HEADER */}
             <div className="flex items-center justify-between p-4 border-b border-[#1e293b]">
-              <h2 className="text-white font-semibold text-lg">
-                Your Cart
-              </h2>
+              <h2 className="text-white font-semibold text-lg">Your Cart</h2>
 
               <button onClick={onClose}>
                 <X className="text-gray-400 hover:text-orange-400 transition" />
@@ -87,7 +85,6 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
 
                     {/* DETAILS */}
                     <div className="flex-1 flex flex-col justify-between">
-
                       {/* TITLE */}
                       <p className="text-sm text-white font-medium line-clamp-1">
                         {item.name}
@@ -106,7 +103,6 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
 
                       {/* QTY + REMOVE */}
                       <div className="flex items-center gap-2 mt-2">
-
                         {/* QTY CONTROL */}
                         <div className="flex items-center bg-[#0f172a] border border-[#1e293b] rounded-md px-2 py-1 gap-2">
                           <button
@@ -125,9 +121,7 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
                           </span>
 
                           <button
-                            onClick={() =>
-                              updateQty(item.id, item.qty + 1)
-                            }
+                            onClick={() => updateQty(item.id, item.qty + 1)}
                             className="hover:text-orange-400 transition"
                           >
                             <Plus size={14} />
@@ -158,7 +152,6 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
               </div>
 
               <div className="flex flex-col gap-2">
-
                 {/* 🔥 VIEW CART */}
                 <button
                   className="w-full border border-[#1e293b] text-gray-300 py-2 rounded-lg
@@ -173,8 +166,11 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
 
                 {/* 🔥 CHECKOUT */}
                 <button
-                  className="w-full bg-orange-500 py-2 rounded-lg text-white font-medium
-                  hover:bg-orange-600 transition"
+                  className="w-full py-2 rounded-lg text-white font-medium
+                    bg-gradient-to-r from-orange-500 to-orange-600
+                    hover:from-orange-400 hover:to-orange-500
+                    shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                    transition"
                   onClick={() => {
                     onClose();
                     navigate("/checkout");
@@ -182,7 +178,6 @@ const CartDrawer = ({ isOpen, onClose }: Props) => {
                 >
                   Checkout
                 </button>
-
               </div>
             </div>
           </motion.div>

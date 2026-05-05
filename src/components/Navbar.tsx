@@ -20,10 +20,7 @@ const Navbar = ({ onCartClick }: Props) => {
   const wishlistCount = wishlist.length;
 
   return (
-    <div className="sticky top-0 z-50">
-      {/* 🔥 PREMIUM BACKDROP */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#020617]/95 via-[#020617]/90 to-[#020617]/95 backdrop-blur-xl border-b border-white/10" />
-
+    <div className="sticky top-0 z-50 backdrop-blur-md bg-black/60 border-b border-white/10">
       <div className="relative flex items-center justify-between px-6 py-3 gap-4">
         {/* 🔥 LEFT - LOGO */}
         <div
@@ -43,9 +40,9 @@ const Navbar = ({ onCartClick }: Props) => {
               {/* 🔥 TOP LINE */}
               <span
                 className="
-                block text-white text-[16px] md:text-lg font-bold tracking-wide
-                drop-shadow-[0_0_6px_rgba(255,115,0,0.6)]
-              "
+                    block text-white text-[16px] md:text-lg font-bold tracking-wide
+                    drop-shadow-[0_0_6px_rgba(255,115,0,0.6)]
+                  "
               >
                 Vignesh Sree
               </span>
@@ -53,13 +50,13 @@ const Navbar = ({ onCartClick }: Props) => {
               {/* 🔥 BOTTOM LINE STRETCHED */}
               <span
                 className="
-                block w-full text-center
-                text-xs font-bold
-                tracking-[0.4em]   /* 🔥 key: increase spacing */
-                bg-gradient-to-r from-orange-400 via-orange-500 to-red-500
-                bg-clip-text text-transparent
-                drop-shadow-[0_0_10px_rgba(255,115,0,0.8)]
-              "
+                    block w-full text-center
+                    text-xs font-bold
+                    tracking-[0.4em]   /* 🔥 key: increase spacing */
+                    bg-gradient-to-r from-orange-400 via-orange-500 to-red-500
+                    bg-clip-text text-transparent
+                    drop-shadow-[0_0_10px_rgba(255,115,0,0.8)]
+                  "
               >
                 PYRO PARK
               </span>

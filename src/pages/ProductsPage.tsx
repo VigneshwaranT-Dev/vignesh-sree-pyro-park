@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import ProductCard from "../components/ProductCard";
 import ProductListCard from "../components/ProductListCard";
 import { products } from "../data/products";
 import { useNavigate, useOutletContext } from "react-router-dom";
@@ -14,13 +13,13 @@ const sortLabels: Record<string, string> = {
 
 const ProductsPage = () => {
   const [view, setView] = useState<"grid" | "list">("list");
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { openCart } = useOutletContext<{ openCart: () => void }>();
 
   // ✅ PRICE RANGE
   const maxProductPrice = Math.max(
-    ...products.map((p) => p.offerPrice || p.price)
+    ...products.map((p) => p.offerPrice || p.price),
   );
 
   const [minPrice, setMinPrice] = useState(0);
@@ -52,8 +51,7 @@ const ProductsPage = () => {
         priceVal <= maxPrice &&
         (selectedCategories.length === 0 ||
           selectedCategories.includes(p.category)) &&
-        (selectedBrands.length === 0 ||
-          selectedBrands.includes(p.brand)) &&
+        (selectedBrands.length === 0 || selectedBrands.includes(p.brand)) &&
         (rating ? p.rating >= rating : true) &&
         (discountOnly ? p.offerPrice : true) &&
         (inStockOnly ? p.inStock !== false : true)
@@ -63,15 +61,13 @@ const ProductsPage = () => {
     switch (sortBy) {
       case "priceLow":
         result.sort(
-          (a, b) =>
-            (a.offerPrice || a.price) - (b.offerPrice || b.price)
+          (a, b) => (a.offerPrice || a.price) - (b.offerPrice || b.price),
         );
         break;
 
       case "priceHigh":
         result.sort(
-          (a, b) =>
-            (b.offerPrice || b.price) - (a.offerPrice || a.price)
+          (a, b) => (b.offerPrice || b.price) - (a.offerPrice || a.price),
         );
         break;
 
@@ -112,9 +108,7 @@ const ProductsPage = () => {
   useEffect(() => {
     if (topRef.current) {
       const y =
-        topRef.current.getBoundingClientRect().top +
-        window.scrollY -
-        110;
+        topRef.current.getBoundingClientRect().top + window.scrollY - 110;
 
       window.scrollTo({ top: y, behavior: "smooth" });
     }
@@ -124,16 +118,14 @@ const ProductsPage = () => {
 
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   return (
     <div className="px-4 md:px-10 py-6">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
         {/* 🔥 FILTER */}
         <div className="bg-[#0f172a] border border-white/5 rounded-xl p-5 sticky top-[120px] h-fit">
-
           <h2 className="text-white text-sm font-medium mb-6">Filters</h2>
 
           {/* ✅ PRICE RANGE */}
@@ -147,7 +139,6 @@ const ProductsPage = () => {
             </div>
 
             <div className="relative h-6">
-
               {/* TRACK */}
               <div className="absolute top-1/2 left-0 right-0 h-[4px] bg-gray-700 rounded -translate-y-1/2" />
 
@@ -236,7 +227,10 @@ const ProductsPage = () => {
             <p className="text-xs text-gray-400 mb-2">Category</p>
 
             {categories.map((cat) => (
-              <label key={cat} className="flex gap-2 text-sm text-gray-300 mb-2">
+              <label
+                key={cat}
+                className="flex gap-2 text-sm text-gray-300 mb-2"
+              >
                 <input
                   type="checkbox"
                   checked={selectedCategories.includes(cat)}
@@ -245,7 +239,7 @@ const ProductsPage = () => {
                       setSelectedCategories((prev) => [...prev, cat]);
                     else
                       setSelectedCategories((prev) =>
-                        prev.filter((c) => c !== cat)
+                        prev.filter((c) => c !== cat),
                       );
                   }}
                 />
@@ -267,9 +261,7 @@ const ProductsPage = () => {
                     if (e.target.checked)
                       setSelectedBrands((prev) => [...prev, b]);
                     else
-                      setSelectedBrands((prev) =>
-                        prev.filter((x) => x !== b)
-                      );
+                      setSelectedBrands((prev) => prev.filter((x) => x !== b));
                   }}
                 />
                 {b}
@@ -291,16 +283,12 @@ const ProductsPage = () => {
 
         {/* 🔥 CONTENT */}
         <div className="lg:col-span-3">
-
           <div ref={topRef} />
 
           <div className="flex justify-between items-center mb-5">
-            <h2 className="text-white">
-              Products ({filteredProducts.length})
-            </h2>
+            <h2 className="text-white">Products ({filteredProducts.length})</h2>
 
             <div className="flex gap-3 items-center flex-wrap">
-
               {/* ✅ ACTIVE SORT CHIP */}
               {sortBy !== "default" && (
                 <div
@@ -354,9 +342,7 @@ const ProductsPage = () => {
           {totalPages > 1 && (
             <div className="flex justify-center mt-10 gap-2">
               <button
-                onClick={() =>
-                  setCurrentPage((p) => Math.max(1, p - 1))
-                }
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="px-3 py-1 bg-[#020617] text-gray-300 rounded"
               >
@@ -379,9 +365,7 @@ const ProductsPage = () => {
 
               <button
                 onClick={() =>
-                  setCurrentPage((p) =>
-                    Math.min(totalPages, p + 1)
-                  )
+                  setCurrentPage((p) => Math.min(totalPages, p + 1))
                 }
                 disabled={currentPage === totalPages}
                 className="px-3 py-1 bg-[#020617] text-gray-300 rounded"

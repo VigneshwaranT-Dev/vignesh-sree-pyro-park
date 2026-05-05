@@ -1,6 +1,6 @@
 import { useWishlist } from "../context/WishlistContext";
 import { useCart } from "../context/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { Trash2, Minus, Plus, ShoppingCart, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -9,10 +9,7 @@ const WishlistPage = () => {
   const { addToCart, updateQty, removeFromCart, getItemQty } = useCart();
   const navigate = useNavigate();
 
-  const openCart = () => {
-    window.dispatchEvent(new CustomEvent("open-cart"));
-  };
-
+  const { openCart } = useOutletContext<{ openCart: () => void }>();
   // ✅ FIXED
   const handleAdd = (item: any) => {
     const qty = getItemQty(item.id);
@@ -203,9 +200,11 @@ const WishlistPage = () => {
                             h-[42px] min-w-[42px] aspect-square
                             flex items-center justify-center
                             rounded-lg
-                            bg-orange-500 hover:bg-orange-600
+                            bg-gradient-to-r from-orange-500 to-orange-600
+                            hover:from-orange-400 hover:to-orange-500
+                            text-white
+                            shadow-[0_0_15px_rgba(255,115,0,0.5)]
                             transition
-                            shadow-[0_0_10px_rgba(255,115,0,0.4)]
                             "
                         >
                           <ShoppingCart size={16} />
@@ -220,14 +219,15 @@ const WishlistPage = () => {
                         }}
                         className="
                             w-full h-[42px]
-                            bg-orange-500 hover:bg-orange-600
-                            text-white text-sm font-medium
+                            bg-gradient-to-r from-orange-500 to-orange-600
+                            hover:from-orange-400 hover:to-orange-500
+                            text-white
+                            shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                            transition text-sm font-medium
                             rounded-lg
-                            transition
-                            shadow-[0_0_10px_rgba(255,115,0,0.4)]
                         "
                       >
-                        Add
+                        Add to Cart
                       </button>
                     )}
                   </div>

@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Minus, Star } from "lucide-react";
+import { X, Plus, Minus, Star, ShoppingCart } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { useCart } from "../context/CartContext";
+import { useOutletContext } from "react-router-dom";
 
 type Props = {
   item: any;
@@ -9,11 +11,15 @@ type Props = {
 };
 
 const QuickViewModal = ({ item, isOpen, onClose }: Props) => {
-  const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
   const dialogRef = useRef<HTMLDivElement>(null);
+  const { cart, addToCart, updateQty } = useCart();
 
-  // 🔒 Lock body scroll + prevent layout shift
+  const isOutOfStock = item?.inStock === false;
+
+  const cartItem = cart.find((c: any) => c.id === item?.id);
+  const qty = cartItem?.qty || 0;
+
   useEffect(() => {
     if (!isOpen) return;
     const scrollBar = window.innerWidth - document.documentElement.clientWidth;
@@ -33,7 +39,7 @@ const QuickViewModal = ({ item, isOpen, onClose }: Props) => {
       // basic focus trap
       if (e.key === "Tab" && dialogRef.current) {
         const focusables = dialogRef.current.querySelectorAll<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
         );
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
@@ -116,7 +122,12 @@ const QuickViewModal = ({ item, isOpen, onClose }: Props) => {
                 <div>
                   <div className="relative bg-[#020617] rounded-xl p-4 overflow-hidden group">
                     {item.offer && (
-                      <div className="absolute top-3 left-3 bg-orange-500 text-xs px-2 py-1 rounded-full z-10">
+                      <div
+                        className="absolute top-3 left-3 bg-gradient-to-r from-orange-500 to-orange-600
+                        text-white
+                        shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                        transition text-xs px-2 py-1 rounded-full z-10"
+                      >
                         {item.offer}
                       </div>
                     )}
@@ -143,10 +154,7 @@ const QuickViewModal = ({ item, isOpen, onClose }: Props) => {
                               : "border-[#1e293b]"
                           }`}
                         >
-                          <img
-                            src={img}
-                            className="h-12 w-12 object-contain"
-                          />
+                          <img src={img} className="h-12 w-12 object-contain" />
                         </button>
                       ))}
                     </div>
@@ -165,7 +173,10 @@ const QuickViewModal = ({ item, isOpen, onClose }: Props) => {
 
                   {/* rating */}
                   <div className="flex items-center gap-2 mt-2 text-sm">
-                    <Star size={14} className="text-orange-400 fill-orange-400" />
+                    <Star
+                      size={14}
+                      className="text-orange-400 fill-orange-400"
+                    />
                     <span className="text-gray-300">
                       {item.rating || 4.5} Rating
                     </span>
@@ -189,30 +200,61 @@ const QuickViewModal = ({ item, isOpen, onClose }: Props) => {
                   <hr className="my-5 border-[#1e293b]" />
 
                   {/* qty + add */}
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center bg-[#020617] border border-[#1e293b] rounded-lg px-3 py-2 gap-4">
-                      <button
-                        onClick={() => setQty(Math.max(1, qty - 1))}
-                        className="hover:text-orange-400"
-                      >
-                        <Minus size={16} />
+                  <div className="pt-4 border-t border-white/10">
+                    {isOutOfStock ? (
+                      <button className="bg-gray-700 w-full h-[42px] px-8 rounded-lg">
+                        Out of Stock
                       </button>
-                      <span className="text-white font-medium">{qty}</span>
+                    ) : qty === 0 ? (
                       <button
-                        onClick={() => setQty(qty + 1)}
-                        className="hover:text-orange-400"
+                        onClick={() => {
+                          addToCart(item);
+                        }}
+                        className="
+                          bg-gradient-to-r from-orange-500 to-orange-600
+                          hover:from-orange-400 hover:to-orange-500
+                          text-white
+                          shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                          transition
+                          h-[42px] px-10 rounded-lg
+                          flex items-center justify-center
+                        "
                       >
-                        <Plus size={16} />
+                        Add to Cart
                       </button>
-                    </div>
+                    ) : (
+                      <div className="flex items-center gap-4">
+                        {/* 🔥 QTY BOX */}
+                        <div
+                          className="
+                            flex items-center
+                            h-[42px]
+                            bg-orange-500/10
+                            border border-orange-500/20
+                            rounded-lg
+                            overflow-hidden
+                          "
+                        >
+                          <button
+                            onClick={() => updateQty(item.id, qty - 1)}
+                            className="px-4 h-full hover:bg-orange-500/20"
+                          >
+                            <Minus size={16} />
+                          </button>
 
-                    <button
-                      className="bg-orange-500 px-6 py-2 rounded-lg text-white font-medium
-                      hover:bg-orange-600 transition
-                      shadow-[0_0_12px_rgba(255,115,0,0.5)]"
-                    >
-                      Add to Cart
-                    </button>
+                          <span className="px-5 text-sm font-medium">
+                            {qty}
+                          </span>
+
+                          <button
+                            onClick={() => updateQty(item.id, qty + 1)}
+                            className="px-4 h-full hover:bg-orange-500/20"
+                          >
+                            <Plus size={16} />
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* description */}

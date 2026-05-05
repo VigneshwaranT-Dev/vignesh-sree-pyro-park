@@ -1,5 +1,6 @@
 import { Star, ShoppingCart, Plus, Minus } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useOutletContext } from "react-router-dom";
 
 type Props = {
   item: any;
@@ -16,6 +17,8 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
 
   const isOutOfStock = item.inStock === false;
 
+  const { openCart } = useOutletContext<{ openCart: () => void }>();
+
   const discount =
     item.offerPrice && item.price
       ? Math.round(((item.price - item.offerPrice) / item.price) * 100)
@@ -28,8 +31,8 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
     if (qty === 0) {
       addToCart(item);
     }
-    
-     onCartOpen?.();
+
+    onCartOpen?.();
   };
 
   return (
@@ -47,7 +50,6 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
     >
       {/* IMAGE */}
       <div className="relative w-[120px] h-[120px] bg-[#020617] rounded-lg flex items-center justify-center shrink-0">
-
         {discount > 0 && (
           <span className="absolute top-2 left-2 text-[10px] bg-orange-500 text-white px-2 py-[2px] rounded">
             {discount}% OFF
@@ -69,12 +71,9 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
 
       {/* CONTENT */}
       <div className="flex-1 flex flex-col justify-between">
-
         {/* TOP */}
         <div>
-          <h3 className="text-white font-medium text-[15px]">
-            {item.name}
-          </h3>
+          <h3 className="text-white font-medium text-[15px]">{item.name}</h3>
 
           <div className="flex items-center gap-2 mt-1 text-xs">
             <span className="text-orange-400 flex items-center gap-1">
@@ -91,7 +90,6 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
 
         {/* BOTTOM */}
         <div className="flex items-center justify-between mt-4">
-
           {/* PRICE */}
           <div>
             <span className="text-orange-400 text-lg font-semibold">
@@ -122,19 +120,31 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
           ) : qty === 0 ? (
             // ✅ ADD BUTTON
             <button
-              onClick={handleAddClick}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAddClick();
+                openCart();
+              }}
               className="
                 h-[38px] px-4
                 rounded-lg
-                bg-orange-500 hover:bg-orange-600 text-white text-sm
+                bg-gradient-to-r from-orange-500 to-orange-600
+                hover:from-orange-400 hover:to-orange-500
+                text-white
+                shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                transition
               "
             >
-              Add
+              Add to Cart
             </button>
           ) : (
             // ✅ QTY STEPPER
-            <div className="flex items-center gap-2">
-
+            <div
+              className="flex items-center gap-2"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
               <div
                 className="
                   h-[38px] px-2
@@ -144,9 +154,7 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
                 "
               >
                 <button
-                  onClick={() =>
-                    updateQty(item.id, Math.max(0, qty - 1))
-                  }
+                  onClick={() => updateQty(item.id, Math.max(0, qty - 1))}
                   className="text-gray-300 hover:text-white"
                 >
                   <Minus size={14} />
@@ -171,15 +179,17 @@ const ProductListCard = ({ item, onCartOpen, onClick }: Props) => {
                   h-[38px] w-[42px]
                   flex items-center justify-center
                   rounded-lg
-                  bg-orange-500 hover:bg-orange-600 text-white
+                  bg-gradient-to-r from-orange-500 to-orange-600
+                  hover:from-orange-400 hover:to-orange-500
+                  text-white
+                  shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                  transition
                 "
               >
                 <ShoppingCart size={16} />
               </button>
-
             </div>
           )}
-
         </div>
       </div>
     </div>

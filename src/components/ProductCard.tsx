@@ -28,6 +28,8 @@ const ProductCard = ({
 
   const qty = getItemQty(item.id);
 
+  const isOutOfStock = item?.inStock === false;
+
   return (
     <>
       <motion.div
@@ -39,7 +41,12 @@ const ProductCard = ({
         <div className="relative bg-[#020617] rounded-xl p-3">
           {/* 🔥 OFFER */}
           {item.offer && (
-            <div className="absolute top-2 left-2 flex items-center gap-1 bg-orange-600 text-white text-[10px] px-2 py-1 rounded-full">
+            <div
+              className="absolute top-2 left-2 flex items-center gap-1 
+              bg-gradient-to-r from-orange-500 to-orange-600
+              shadow-[0_0_15px_rgba(255,115,0,0.5)]
+              transition text-white text-[10px] px-2 py-1 rounded-full"
+            >
               <Tag size={10} />
               {item.offer}
             </div>
@@ -140,62 +147,78 @@ const ProductCard = ({
         </div>
 
         {/* CART SECTION */}
-        <div className="mt-3">
-          {qty === 0 ? (
+        <div
+          className="pt-4 border-t border-white/10"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          {isOutOfStock ? (
+            <button className="bg-gray-700 w-full h-[42px] px-8 rounded-lg">
+              Out of Stock
+            </button>
+          ) : qty === 0 ? (
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                addToCart(item, 1);
+                addToCart(item);
+                openCart();
               }}
-              className="w-full h-[42px] bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+              className="
+                  w-full h-[42px] px-10 rounded-lg
+                  flex items-center justify-center
+                  bg-gradient-to-r from-orange-500 to-orange-600
+                  hover:from-orange-400 hover:to-orange-500
+                  text-white
+                  shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                  transition
+                "
             >
-              Add
+              Add to Cart
             </button>
           ) : (
-            <div className="flex items-center gap-3">
-              {/* QTY */}
+            <div className="flex items-center gap-4">
+              {/* 🔥 QTY BOX */}
               <div
-                className="flex items-center justify-between bg-[#020617] h-[42px] rounded-lg px-3 w-full border border-[#1e293b]"
-                onClick={(e) => e.stopPropagation()}
+                className="
+                    flex items-center justify-between
+                    w-full h-[42px]
+                    bg-orange-500/10
+                    border border-orange-500/20
+                    rounded-lg
+                    overflow-hidden
+                  "
               >
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (qty === 1) {
-                      removeFromCart(item.id);
-                    } else {
-                      updateQty(item.id, qty - 1);
-                    }
-                  }}
+                  onClick={() => updateQty(item.id, qty - 1)}
+                  className="px-4 h-full hover:bg-orange-500/20"
                 >
                   <Minus size={16} />
                 </button>
 
-                <span className="text-white font-semibold">{qty}</span>
+                <span className="px-5 text-sm font-medium">{qty}</span>
 
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    updateQty(item.id, qty + 1);
-                  }}
+                  onClick={() => updateQty(item.id, qty + 1)}
+                  className="px-4 h-full hover:bg-orange-500/20"
                 >
                   <Plus size={16} />
                 </button>
               </div>
 
-              {/* CART BTN */}
+              {/* 🔥 VIEW CART BUTTON */}
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  openCart();
-                }}
+                onClick={openCart}
                 className="
-                  bg-orange-500 hover:bg-orange-600
-                  h-[41px] min-w-[42px] aspect-square
-                  flex items-center justify-center
-                  rounded-lg
-                  transition
-                "
+                    bg-gradient-to-r from-orange-500 to-orange-600
+                    hover:from-orange-400 hover:to-orange-500
+                    text-white
+                    shadow-[0_0_15px_rgba(255,115,0,0.5)]
+                    transition
+                    h-[41px] min-w-[42px] aspect-square
+                    rounded-lg
+                    flex items-center justify-center
+                  "
               >
                 <ShoppingCart size={18} />
               </button>
