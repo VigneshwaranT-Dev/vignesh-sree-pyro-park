@@ -27,32 +27,39 @@ const Navbar = ({ onCartClick }: Props) => {
       <div className="relative flex items-center justify-between px-6 py-3 gap-4">
         {/* 🔥 LEFT - LOGO */}
         <div
-          className="flex items-center gap-3 min-w-[220px] cursor-pointer group"
-          onClick={() => navigate("/")}
+          className="flex items-center gap-3 min-w-[220px] cursor-pointer"
+          onClick={() => {
+            navigate("/");
+          }}
         >
           <img
             src="/assets/logo/app-logo.png"
-            alt="logo"
-            className="h-12 object-contain transition group-hover:scale-105"
+            alt="Sree Vignesh Pyro Park"
+            className="h-12 object-contain"
           />
 
-          <div>
+          <div className="inline-block">
             <h1 className="leading-tight">
+              {/* 🔥 TOP LINE */}
               <span
                 className="
-                  block text-white text-[16px] md:text-lg font-bold tracking-wide
-                  group-hover:text-orange-400 transition
-                "
+                block text-white text-[16px] md:text-lg font-bold tracking-wide
+                drop-shadow-[0_0_6px_rgba(255,115,0,0.6)]
+              "
               >
                 Vignesh Sree
               </span>
 
+              {/* 🔥 BOTTOM LINE STRETCHED */}
               <span
                 className="
-                  block text-xs font-bold tracking-[0.4em]
-                  bg-gradient-to-r from-orange-400 via-orange-500 to-red-500
-                  bg-clip-text text-transparent
-                "
+                block w-full text-center
+                text-xs font-bold
+                tracking-[0.4em]   /* 🔥 key: increase spacing */
+                bg-gradient-to-r from-orange-400 via-orange-500 to-red-500
+                bg-clip-text text-transparent
+                drop-shadow-[0_0_10px_rgba(255,115,0,0.8)]
+              "
               >
                 PYRO PARK
               </span>
