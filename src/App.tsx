@@ -1,16 +1,17 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import HomePage from './pages/HomePage'
-import CartPage from './pages/CartPage'
-import CheckoutPage from './pages/CheckoutPage'
-import OrderSuccessPage from './pages/OrderSuccessPage'
-import ProductsPage from './pages/ProductsPage'
-import ScrollToTop from './components/ScrollToTop'
-import ProductDetailsPage from './pages/ProductDetailsPage'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import MainLayout from "./layouts/MainLayout";
+import HomePage from "./pages/HomePage";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+import ProductsPage from "./pages/ProductsPage";
+import ScrollToTop from "./components/ScrollToTop";
+import ProductDetailsPage from "./pages/ProductDetailsPage";
+import WishlistPage from "./pages/WishlistPage";
 
 function App() {
   return (
-   <BrowserRouter>
+    <BrowserRouter>
       <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>
@@ -20,10 +21,11 @@ function App() {
           <Route path="/order-success" element={<OrderSuccessPage />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

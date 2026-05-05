@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { CartProvider } from "./CartContext";
+import { WishlistProvider } from "./WishlistContext";
 
 type Props = {
   children: ReactNode;
@@ -8,6 +9,7 @@ type Props = {
 // 🔥 Add providers here (order matters)
 const providers = [
   CartProvider,
+  WishlistProvider,
   // AuthProvider,
   // ThemeProvider,
 ];

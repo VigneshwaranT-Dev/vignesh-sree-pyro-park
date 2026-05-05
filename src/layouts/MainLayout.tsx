@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import CartDrawer from "../components/CartDrawer";
 import { useEffect, useState } from "react";
+import GlobalToast from "../shared/components/GlobalToast";
 
 const MainLayout = () => {
   const [openCart, setOpenCart] = useState(false);
@@ -22,20 +23,18 @@ const MainLayout = () => {
   return (
     <>
       <div className="select-none flex flex-col min-h-screen">
-        
         <Navbar onCartClick={() => setOpenCart(true)} />
 
         <div className="flex-1 px-4 md:px-10">
-          <Outlet context={{ openCart: () => setOpenCart(true) }}/>
+          <Outlet context={{ openCart: () => setOpenCart(true) }} />
         </div>
 
         <Footer />
       </div>
 
-      <CartDrawer
-        isOpen={openCart}
-        onClose={() => setOpenCart(false)}
-      />
+      <CartDrawer isOpen={openCart} onClose={() => setOpenCart(false)} />
+
+      <GlobalToast />
     </>
   );
 };
