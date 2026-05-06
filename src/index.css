@@ -1,14 +1,45 @@
 @import "tailwindcss";
 
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes premiumShimmer {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateX(220%);
+    opacity: 0;
+  }
+}
+
+.animate-premium-shimmer {
+  animation: premiumShimmer 2.8s ease-in-out infinite;
+  animation-delay: 0s;
+  animation-fill-mode: both;
+}
 
 body {
-    background-color: #0b0f1a;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  background-color: #0b0f1a;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -73,12 +104,7 @@ button {
 
 /* 🔥 HOVER EFFECT */
 *::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    #fb923c,
-    #f97316,
-    #ea580c
-  );
+  background: linear-gradient(180deg, #fb923c, #f97316, #ea580c);
   box-shadow:
     0 0 12px rgba(249, 115, 22, 0.8),
     inset 0 0 6px rgba(255, 255, 255, 0.2);

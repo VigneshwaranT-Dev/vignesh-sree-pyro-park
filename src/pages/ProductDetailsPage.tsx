@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Maximize } from "lucide-react";
 import RelatedProducts from "../components/RelatedProducts";
+import ProductDetailsSkeleton from "../components/skeletons/ProductDetailsSkeleton";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -20,6 +21,8 @@ const ProductDetailsPage = () => {
   const { cart, addToCart, updateQty } = useCart();
 
   const product = products.find((p) => p.id === Number(id));
+
+  const [isLoading, setIsLoading] = useState(true);
 
   const [activeImage, setActiveImage] = useState(0);
   const [showMore, setShowMore] = useState(false);
@@ -41,6 +44,18 @@ const ProductDetailsPage = () => {
     };
   }, [showGallery]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <ProductDetailsSkeleton />;
+  }
+
   if (!product) return <div className="text-white">Product not found</div>;
 
   const cartItem = cart.find((c: any) => c.id === product.id);
@@ -58,8 +73,8 @@ const ProductDetailsPage = () => {
   const currentMedia = product.images[galleryIndex];
 
   const relatedProducts = products
-  .filter((p) => p.category === product.category && p.id !== product.id)
-  .slice(0, 6);
+    .filter((p) => p.category === product.category && p.id !== product.id)
+    .slice(0, 6);
 
   const fallbackProducts =
     relatedProducts.length > 0
@@ -68,14 +83,10 @@ const ProductDetailsPage = () => {
 
   return (
     <div className="px-4 md:px-12 py-10 text-white min-h-screen">
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
         {/* 🔥 LEFT - IMAGE */}
         <div className="sticky top-[120px] h-fit">
-
           <div className="relative bg-[#020617] rounded-2xl p-8 flex items-center justify-center border border-white/5">
-
             <img
               src={product.images[activeImage]}
               className="h-[300px] object-contain transition-transform duration-300 hover:scale-105"
@@ -89,7 +100,7 @@ const ProductDetailsPage = () => {
               }}
               className="absolute bottom-4 right-4 bg-black/60 backdrop-blur p-2 rounded-lg hover:bg-orange-500 transition"
             >
-              <Maximize size={16}/>
+              <Maximize size={16} />
             </button>
           </div>
 
@@ -113,7 +124,6 @@ const ProductDetailsPage = () => {
 
         {/* 🔥 RIGHT - DETAILS */}
         <div className="flex flex-col gap-6">
-
           <h1 className="text-3xl font-semibold">{product.name}</h1>
 
           {/* RATING */}
@@ -127,9 +137,7 @@ const ProductDetailsPage = () => {
 
           {/* PRICE */}
           <div className="flex items-center gap-4">
-            <span className="text-3xl text-orange-400 font-bold">
-              ₹{price}
-            </span>
+            <span className="text-3xl text-orange-400 font-bold">₹{price}</span>
 
             {product.offerPrice && (
               <span className="line-through text-gray-500">
@@ -196,7 +204,6 @@ const ProductDetailsPage = () => {
               </button>
             ) : (
               <div className="flex items-center gap-4">
-
                 {/* 🔥 QTY BOX */}
                 <div
                   className="
@@ -215,9 +222,7 @@ const ProductDetailsPage = () => {
                     <Minus size={16} />
                   </button>
 
-                  <span className="px-5 text-sm font-medium">
-                    {qty}
-                  </span>
+                  <span className="px-5 text-sm font-medium">{qty}</span>
 
                   <button
                     onClick={() => updateQty(product.id, qty + 1)}
@@ -237,12 +242,10 @@ const ProductDetailsPage = () => {
                     flex items-center justify-center
                   "
                 >
-                   <ShoppingCart size={18} />
+                  <ShoppingCart size={18} />
                 </button>
-
               </div>
             )}
-
           </div>
         </div>
       </div>
@@ -250,7 +253,6 @@ const ProductDetailsPage = () => {
       {/* 🔥 MODAL */}
       {showGallery && (
         <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center">
-
           {/* BACKDROP */}
           <div
             className="absolute inset-0"
@@ -259,7 +261,6 @@ const ProductDetailsPage = () => {
 
           {/* CONTENT */}
           <div className="relative w-full max-w-5xl mx-auto px-4 flex items-center justify-center">
-
             {/* CLOSE */}
             <button
               onClick={() => setShowGallery(false)}
@@ -272,7 +273,7 @@ const ProductDetailsPage = () => {
             <button
               onClick={() =>
                 setGalleryIndex((prev) =>
-                  prev === 0 ? product.images.length - 1 : prev - 1
+                  prev === 0 ? product.images.length - 1 : prev - 1,
                 )
               }
               className="absolute left-2 md:left-4 text-white text-4xl z-10"
@@ -301,14 +302,13 @@ const ProductDetailsPage = () => {
             <button
               onClick={() =>
                 setGalleryIndex((prev) =>
-                  prev === product.images.length - 1 ? 0 : prev + 1
+                  prev === product.images.length - 1 ? 0 : prev + 1,
                 )
               }
               className="absolute right-2 md:right-4 text-white text-4xl z-10"
             >
               ›
             </button>
-
           </div>
         </div>
       )}

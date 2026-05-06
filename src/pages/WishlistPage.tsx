@@ -3,11 +3,23 @@ import { useCart } from "../context/CartContext";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { Trash2, Minus, Plus, ShoppingCart, Heart } from "lucide-react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import WishlistPageSkeleton from "../components/skeletons/WishlistPageSkeleton";
 
 const WishlistPage = () => {
   const { wishlist, toggleWishlist } = useWishlist();
   const { addToCart, updateQty, removeFromCart, getItemQty } = useCart();
   const navigate = useNavigate();
+
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const { openCart } = useOutletContext<{ openCart: () => void }>();
   // ✅ FIXED
@@ -43,6 +55,10 @@ const WishlistPage = () => {
     );
   };
 
+  if (isLoading) {
+    return <WishlistPageSkeleton />;
+  }
+
   return (
     <div className="max-w-7xl mx-auto py-10 px-4">
       {/* HEADER */}
@@ -77,9 +93,13 @@ const WishlistPage = () => {
           <button
             onClick={() => navigate("/products")}
             className="
-              bg-orange-500 hover:bg-orange-600
-              px-6 py-3 rounded-xl text-white
-              shadow-[0_0_15px_rgba(255,115,0,0.4)]
+              bg-gradient-to-r from-orange-500 to-orange-600
+              hover:from-orange-400 hover:to-orange-500
+              text-white
+              shadow-[0_0_15px_rgba(255,115,0,0.5)]
+              transition
+              font-medium
+              px-6 py-3 rounded-lg
             "
           >
             Explore Products
