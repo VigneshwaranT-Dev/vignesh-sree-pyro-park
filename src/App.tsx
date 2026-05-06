@@ -8,6 +8,7 @@ import ProductsPage from "./pages/ProductsPage";
 import ScrollToTop from "./components/ScrollToTop";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import WishlistPage from "./pages/WishlistPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/product/:id" element={<ProductDetailsPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

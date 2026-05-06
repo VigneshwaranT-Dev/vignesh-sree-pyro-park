@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { CartProvider } from "./CartContext";
 import { WishlistProvider } from "./WishlistContext";
+import { AuthProvider } from "./AuthContext";
+import { AddressProvider } from "./AddressContext";
 
 type Props = {
   children: ReactNode;
@@ -10,8 +12,8 @@ type Props = {
 const providers = [
   CartProvider,
   WishlistProvider,
-  // AuthProvider,
-  // ThemeProvider,
+  AuthProvider,
+  AddressProvider,
 ];
 
 const Providers = ({ children }: Props) => {

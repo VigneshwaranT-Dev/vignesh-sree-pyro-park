@@ -4,9 +4,11 @@ import Footer from "../components/Footer";
 import CartDrawer from "../components/CartDrawer";
 import { useEffect, useState } from "react";
 import GlobalToast from "../shared/components/GlobalToast";
+import AuthModal from "../components/auth/AuthModal";
 
 const MainLayout = () => {
   const [openCart, setOpenCart] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
 
   useEffect(() => {
     if (openCart) {
@@ -23,7 +25,10 @@ const MainLayout = () => {
   return (
     <>
       <div className="select-none flex flex-col min-h-screen">
-        <Navbar onCartClick={() => setOpenCart(true)} />
+        <Navbar
+          onCartClick={() => setOpenCart(true)}
+          openAuth={() => setIsAuthOpen(true)}
+        />
 
         <div className="flex-1 px-4 md:px-10">
           <Outlet context={{ openCart: () => setOpenCart(true) }} />
@@ -33,6 +38,8 @@ const MainLayout = () => {
       </div>
 
       <CartDrawer isOpen={openCart} onClose={() => setOpenCart(false)} />
+
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
 
       <GlobalToast />
     </>

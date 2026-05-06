@@ -1,5 +1,5 @@
 import { useCart } from "../context/CartContext";
-import { Plus, Minus, Trash2 } from "lucide-react";
+import { Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import CheckoutStepper from "../components/common/CheckoutStepper";
 
@@ -38,7 +38,9 @@ const CartPage = () => {
               flex items-center justify-center
             "
           >
-            <span className="text-6xl">🛒</span>
+            <span className="text-6xl">
+              <ShoppingBag size={50} className="mx-auto text-orange-400" />
+            </span>
           </div>
 
           {/* TITLE */}
@@ -58,7 +60,7 @@ const CartPage = () => {
               mt-6
               h-[46px]
               px-6
-              rounded-lg
+              rounded-xl
               bg-gradient-to-r from-orange-500 to-orange-600
               hover:from-orange-400 hover:to-orange-500
               text-white

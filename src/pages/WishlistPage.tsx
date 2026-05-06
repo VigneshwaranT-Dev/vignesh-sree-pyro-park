@@ -82,7 +82,9 @@ const WishlistPage = () => {
           animate={{ opacity: 1, scale: 1 }}
           className="flex flex-col items-center justify-center py-24 text-center"
         >
-          <div className="text-6xl mb-4">💔</div>
+          <div className="text-6xl mb-4">
+            <Heart size={50} className="mx-auto text-orange-400" />
+          </div>
 
           <h2 className="text-xl text-white mb-2">Your wishlist is empty</h2>
 
@@ -99,7 +101,7 @@ const WishlistPage = () => {
               shadow-[0_0_15px_rgba(255,115,0,0.5)]
               transition
               font-medium
-              px-6 py-3 rounded-lg
+              px-6 py-3 rounded-xl
             "
           >
             Explore Products
